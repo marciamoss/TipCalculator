@@ -15,7 +15,7 @@ function PopUps(props) {
                         {props.modaltxt2}{props.tipamount}<br/>
                         {props.modaltxt3}{props.total}</p>
                     ) : (
-                        <p style={{color:"#2d0404", fontSize: "20px",textAlign:"center"}}>Enter Positive Numbers Only!</p>
+                        <p style={{color:"#2d0404", fontSize: "20px",textAlign:"center"}}>Enter Numbers Greater Than 0 Only!</p>
                     )}
                 </Modal.Body>               
                 <Modal.Footer style={{backgroundColor:"orange"}}>

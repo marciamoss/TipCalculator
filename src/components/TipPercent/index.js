@@ -36,7 +36,7 @@ class TipPercent extends Component {
         this.setState({
           [name]: value
         },()=>{
-            if(isNaN(this.state.bill) || isNaN(this.state.customtip) || (isNaN(this.state.people) || (parseFloat(this.state.people))===0)){
+            if((isNaN(this.state.bill) || (parseFloat(this.state.bill))===0) || (isNaN(this.state.customtip) || (parseFloat(this.state.customtip))===0) || (isNaN(this.state.people) || (parseFloat(this.state.people))===0)){
                 let handleCloseCopy = this.state.handleClose.bind(this);
                 if(name === "customtip"){
                     this.setState({customtip:"", tipamount:"NAN", total:"", custom:false, show:true, 
