@@ -30,12 +30,12 @@ class TipPercent extends Component {
       };
     }
 
+    // Captures the values from input box to state after the validation
     handleInputChange = event => {
         const { name, value } = event.target;
         this.setState({
           [name]: value
         },()=>{
-            console.log(isNaN(this.state.bill) , isNaN(this.state.customtip) , isNaN(this.state.people));
             if(isNaN(this.state.bill) || isNaN(this.state.customtip) || (isNaN(this.state.people) || (parseFloat(this.state.people))===0)){
                 let handleCloseCopy = this.state.handleClose.bind(this);
                 if(name === "customtip"){
@@ -53,9 +53,10 @@ class TipPercent extends Component {
         
     };
 
+    //calculates tip based on user option
     calculateTip = (tip,type) => {
         let tipamount, total, billamount;
-        console.log("split status",this.state.split);
+        //if user does not pick split option
         if(this.state.split===false){
             if(this.state.custom===true){
                 if(type==="dollar"){
@@ -85,7 +86,9 @@ class TipPercent extends Component {
             else if(tip === 9999 ){
                 this.setState({custom:true});
             }
-        }else if(this.state.split===true && this.state.people>0){
+        }
+        //if user picks split option
+        else if(this.state.split===true && this.state.people>0){
             if(this.state.custom===true){
                 if(type==="dollar"){
                     billamount=(parseFloat(this.state.bill)).toFixed(2);
@@ -178,22 +181,7 @@ class TipPercent extends Component {
                                                 onChange={this.handleInputChange}
                                                 name="people"
                                                 placeholder="#" 
-                                            style={{width:"100px"}}/>
-                                            {/* { this.state.people ? (
-                                            <Button style={{backgroundColor: "lightgreen", fontWeight: "bold", color:"purple"}}
-                                                onClick=
-                                                {(event) => 
-                                                    {
-                                                    event.preventDefault();
-                                                    alert("select the tip category");
-                                                    }
-                                                } 
-                                            >
-                                                Enter
-                                            </Button>
-                                            ) : (
-                                                null
-                                            )} */}
+                                            style={{width:"75px"}}/>
                                         </div>
                                     </div>
                                 ):(
@@ -204,7 +192,7 @@ class TipPercent extends Component {
                                 {this.state.percent.map((percent,index) => (
                                     <FormBtn 
                                         key={index}
-                                        disabled={(this.state.custom)}
+                                        disabled={(this.state.custom || (this.state.split===true && this.state.people<=0))}
                                         data-value={this.state.value[index]}
                                         label={percent}
                                         onClick=
