@@ -30,23 +30,35 @@ class TipPercent extends Component {
           [name]: value
         },()=>{
             if(isNaN(this.state.bill) || isNaN(this.state.customtip)){
-                let modaltxt="Enter numbers only";
                 let handleCloseCopy = this.state.handleClose.bind(this);
-                this.setState({bill:"", customtip:"", tipamount:"NAN", total:"", custom:false, show:true, 
-                              handleClose: handleCloseCopy, modaltxt});
+                if(name === "customtip"){
+                    this.setState({customtip:"", tipamount:"NAN", total:"", custom:false, show:true, 
+                              handleClose: handleCloseCopy});
+                }else{
+                    this.setState({bill:"", customtip:"", tipamount:"NAN", total:"", custom:false, show:true, 
+                                handleClose: handleCloseCopy});
+                }
             };
         });
         
     };
 
-    calculateTip = tip => {
+    calculateTip = (tip,type) => {
         let tipamount, total, billamount;
         if(this.state.custom===true){
-            billamount=(parseFloat(this.state.bill)).toFixed(2);
-            tipamount=(parseFloat(this.state.customtip)).toFixed(2);
-            total=(parseFloat(this.state.bill)+parseFloat(tipamount)).toFixed(2);
-            let handleCloseCopy = this.state.handleClose.bind(this);
-            this.setState({bill:"", billamount, tipamount, total, custom:false, customtip:"",show:true, handleClose:handleCloseCopy});
+            if(type==="dollar"){
+                billamount=(parseFloat(this.state.bill)).toFixed(2);
+                tipamount=(parseFloat(this.state.customtip)).toFixed(2);
+                total=(parseFloat(this.state.bill)+parseFloat(tipamount)).toFixed(2);
+                let handleCloseCopy = this.state.handleClose.bind(this);
+                this.setState({bill:"", billamount, tipamount, total, custom:false, customtip:"",show:true, handleClose:handleCloseCopy});
+            }else if(type==="percent"){
+                billamount=(parseFloat(this.state.bill)).toFixed(2);
+                tipamount=(this.state.bill*(this.state.customtip/100)).toFixed(2);
+                total=(parseFloat(this.state.bill)+parseFloat(tipamount)).toFixed(2);
+                let handleCloseCopy = this.state.handleClose.bind(this);
+                this.setState({bill:"", billamount, tipamount, total, custom:false, customtip:"",show:true, handleClose:handleCloseCopy});
+            }
         }
         if(tip !== 9999 && this.state.custom !== true){
             billamount=(parseFloat(this.state.bill)).toFixed(2);
@@ -128,17 +140,33 @@ class TipPercent extends Component {
                             name="customtip"
                             placeholder="Custom Tip Amount" 
                             />
-                            <FormBtn 
-                                onClick=
-                                {(event) => 
-                                    {
-                                    event.preventDefault();
-                                    this.calculateTip(this.state.customtip)
-                                    }
-                                } 
-                            >
-                                Submit
-                            </FormBtn>
+                            { this.state.customtip ? (
+                                <>
+                                <FormBtn
+                                    onClick=
+                                    {(event) => 
+                                        {
+                                        event.preventDefault();
+                                        this.calculateTip(this.state.customtip,"dollar")
+                                        }
+                                    } 
+                                >
+                                    Submit Tip in $
+                                </FormBtn>
+                                <FormBtn 
+                                    onClick=
+                                    {(event) => 
+                                        {
+                                        event.preventDefault();
+                                        this.calculateTip(this.state.customtip,"percent")
+                                        }
+                                    } 
+                                >
+                                    Submit Tip in %
+                                </FormBtn>
+                                </>
+                            ) : (null)
+                            }
                         </div>
                         <div className="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3"></div>
                     </div>
