@@ -11,9 +11,9 @@ function PopUps(props) {
                 </Modal.Header>
                 <Modal.Body style={{fontWeight: "bold", backgroundColor:"orange"}}>
                     {(props.tipamount!=="NAN") ? (
-                        <p>The Bill : {props.bill}<br/>
-                        The Tip : {props.tipamount}<br/>
-                        The Total with Tip : {props.total}</p>
+                        <p>{props.modaltxt1}{props.bill}<br/>
+                        {props.modaltxt2}{props.tipamount}<br/>
+                        {props.modaltxt3}{props.total}</p>
                     ) : (
                         <p style={{color:"#2d0404", fontSize: "20px",textAlign:"center"}}>Enter Positive Numbers Only!</p>
                     )}
